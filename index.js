@@ -1,9 +1,12 @@
 const csv = require('csv-parser');
 const fs = require('fs');
 
+const inputFile = 'customer-data-sample.csv';
+const outputFile = 'output.csv';
+
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 const csvWriter = createCsvWriter({
-    path: 'output.csv',
+    path: outputFile,
     header: [
         {id: 'First Name', title: 'First Name'},
         {id: 'Last Name', title: 'Last Name'},
@@ -15,7 +18,7 @@ const csvWriter = createCsvWriter({
 const csv_data = new Promise((resolve, reject) => {
     const data = [];
 
-    fs.createReadStream('customer-data-sample.csv')
+    fs.createReadStream(inputFile)
         .pipe(csv())
         .on('data', (row) => data.push(row))
         .on('end', () => resolve(data));
