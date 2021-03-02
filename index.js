@@ -26,13 +26,35 @@ const csv_write = (data) => new Promise((resolve, reject) => {
       .writeRecords(data)
       .then(resolve)
       .catch(reject);
-})
+});
+
+const replaceEmptyWithDash = (data) => {
+    return data.map((row) => {
+        if (!row['First Name']) {
+            row['First Name'] = '-';
+        }
+        if (!row['Last Name']) {
+            row['Last Name'] = '-';
+        }
+        if (!row['Email']) {
+            row['Email'] = '-';
+        }
+        if (!row['Phone Number']) {
+            row['Phone Number'] = '-';
+        }
+
+        return row;
+    });
+};
 
 const main = async () => {
     const data = await csv_data;
-    await csv_write(data);
+
+    const dasharized_data = replaceEmptyWithDash(data);
+
+    await csv_write(dasharized_data);
 
     console.log('All done!');
 }
 
-main()
+main();
