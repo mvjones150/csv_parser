@@ -50,12 +50,21 @@ const replaceEmptyWithDash = (data) => {
     });
 };
 
+const filterEmail = (data) => {
+    return data.filter((row) => {
+        return row.Email !== '-';
+    });
+};
+
 const main = async () => {
     const data = await csv_data;
 
     const dasharized_data = replaceEmptyWithDash(data);
 
-    await csv_write(dasharized_data);
+    const emailFilteredData = filterEmail(dasharized_data);
+
+
+    await csv_write(emailFilteredData);
 
     console.log('All done!');
 }
